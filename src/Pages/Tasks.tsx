@@ -1,8 +1,29 @@
+import { selectFilter, selectTasks } from "@/redux/Features/tasks/tasksSlice";
+import { useAppSelector } from "@/redux/hooks/hook";
+import TaskCard from "./TaskCard";
+import type { ITask } from "@/types/types";
+
 export const Tasks = () => {
+
+  const tasks = useAppSelector(selectTasks)
+  const filter = useAppSelector(selectFilter)
+  console.log(tasks);
+  console.log(filter);
+
+
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Tasks</h1>
-      <p className="">This is the Tasks page.</p>
-    </div>
+    <>
+      {tasks.map((task: ITask) => (
+      <TaskCard
+        key={task.id}
+        task={{
+          id: task.id,
+          title: task.title,
+          description: task.description,
+          completed: task.isCompleted // fallback if missing
+        }}
+      />
+      ))}
+    </>
   );
 }
